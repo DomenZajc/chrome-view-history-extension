@@ -1,7 +1,10 @@
-console.log("avtoa");
+console.log("ska1");
 chrome.extension.sendMessage({tab: "new"}, function(response) {});
+$(window).load(function () {
+  chrome.extension.sendMessage({tab: "new"}, function(response) {});
+  console.log("ska2");
+});
 
-console.log(window.history);
 (function(history){
     history.pushState = function(state) {
         console.log("motorji");
@@ -17,7 +20,7 @@ window.history.pushState = function(state){
 
 
 window.onpopstate = history.onpushstate = function(e) {
-    console.log("vono");
-
+    chrome.extension.sendMessage({tab: "new"}, function(response) {});
+    console.log("ska3");
 };
 

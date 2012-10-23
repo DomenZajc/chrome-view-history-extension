@@ -1,10 +1,15 @@
 var history = [];
 var data = {};
 
-chrome.storage.local.get(null, function(items){
-    data = items;
+chrome.windows.onRemoved.addListener(function(windowId){
+    chrome.storage.local.clear(function (){
+        chrome.storage.local.get(null, function(items){
+            chrome.storage.local.set(data, function(){})
+        });
+    });
 });
-chrome.history.search({"text": "", "maxResults" : 20}, function(historyItems){
+
+chrome.history.search({"text": "", "maxResults" : 100}, function(historyItems){
     history = historyItems;
 });
 
@@ -16,41 +21,31 @@ chrome.extension.onMessage.addListener(
 });
 
 function localDelOld(){
-    chrome.storage.local.get(null, function(items){data = items;});
+    var storage = Object.create(data);
 
-    chrome.storage.local.get(null, function(items){
-        var storage = items;
-
-        for(var i in storage){
-            for(var k = 0; k < history.length; k++){
-                if(i === history[k].id){
-                    delete items[i];
-                }
+    for(var i in data){
+        for(var k = 0; k < history.length; k++){
+            if(i === "i" + history[k].id){
+                delete storage[i];
             }
         }
-        var itemsKeys = [];
+    }
 
-        for(var i in items){
-            itemsKeys.push(i);
-        }
-
-        if(itemsKeys){
-            console.log("itemsKeys");
-            chrome.storage.local.remove(itemsKeys, null);
-        }
-    });
+    for(var i in storage){
+        //delete data[i];
+    }
+    console.log(data);
+    
 }
 
 function localSave(imgObj){
-    var newObject = {};
-    newObject[imgObj.historyId] = imgObj.image;
-    chrome.storage.local.set(newObject);
-
+    data["i" + imgObj.historyId] = imgObj.image;
+    console.log(imgObj);
     localDelOld();
 }
 
 function bindImage(imgObj){
-    chrome.history.search({"text": "", "maxResults" : 20}, function(historyItems){
+    chrome.history.search({"text": "", "maxResults" : 100}, function(historyItems){
         history = historyItems;
         for(var i = 0; i < historyItems.length; i++){
             if(historyItems[i].url == imgObj.url){

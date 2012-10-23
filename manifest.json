@@ -17,7 +17,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["page.js", "popup.js", "jquery.js"],
+      "js": ["jquery.js", "page.js"],
       "run_at": "document_idle"
     }
   ]
