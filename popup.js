@@ -5,9 +5,13 @@ console.log(images);
 var imag = images;
 
 function addImageDom(img){
-	var image = new Image();
-	image.src = imag[img];
-	$('#image').html(image);
+	if(imag[img]){
+		var image = new Image();
+		image.src = imag[img];
+		console.log(img);
+		console.log(image.src);
+		$('#image').html(image);
+	}
 }
 
 
@@ -22,15 +26,28 @@ for(var item = 0; item < history.length; item++){
 		if(item == 0){
 			active = " active";
 		}
-		var link = '<li id="' + history[item].id + '" class="item' + active + '">' + history[item].title + '</li>';
+		var link = '<li id="' + history[item].id + '" class="item' + active + '"><a href="' + history[item].url + '">' + history[item].title + '</a></li>';
 		$('#links').append(link);
 	}
 }
 
 function next() {
     var active = $('#links .item.active');
-    var next = active.next(); 
-    console.log(next);
+    var next = active.prev(); 
+    if(!($(next).attr("id"))){
+    	next = $('#links .item:last-child');
+    }
+    var nextImg = $(next).attr("id"); 
+    
+    next.addClass('active');
+    
+    active.removeClass('active');
+    addImageDom("i" + 	nextImg);
+}
+
+function eback() {
+    var active = $('#links .item.active');
+    var next = active.next();
     if(!($(next).attr("id"))){
     	next = $('#links .item:first-child');
     	console.log(next);
@@ -40,9 +57,19 @@ function next() {
     next.addClass('active');
     
     active.removeClass('active');
-    addImageDom("i" + nextImg);
+    addImageDom("i" + 	nextImg);
 }
 
 $("#next").on("click", function(event){
 	next();
+});
+$("#back").on("click", function(event){
+	eback();
+})
+$('a').live('click', function(e) {
+  var href = e.currentTarget.href;
+  chrome.tabs.getSelected(null,function(tab) {
+  	console.log(tab);
+    chrome.tabs.update(tab.id, {url: href});
+  });
 });

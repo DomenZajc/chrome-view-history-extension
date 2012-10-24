@@ -1,19 +1,68 @@
 <html>
 <head>
-<style>
-div, td, th { color: black; }
-#image img{width: 400px}
-.item{display: none;}
-.active{display: block;}
+<style> 
+body{
+	font-family: arial;
+	font-size: 14px;
+}
+
+#image img{
+	margin: 0 auto;
+	width: 100%;
+}
+.item{
+	display: none;
+}
+.active{
+	display: block;
+}
+#nav{
+	background-color: #888;
+	color: #fff;
+	display: inline-table;
+	width: 100%;
+	margin-bottom: 6px;
+}
+#back, #next{
+	display: table-cell;
+	width: 49%;
+	cursor: pointer;
+}
+#back span{
+	float: right;
+	padding: 2px 13px;
+}
+#next span{
+	float:left;
+	padding: 2px 13px;
+}
+#middle{
+	width: 2%;
+	background-color: #fff;
+	display: table-cell;
+}
+#links{
+	text-align: center;
+	margin-top: 6px;
+}
+#links a{
+	color: #888;
+	font-size: 12px;
+	border: none;
+}
+#links a:focus {outline: none;}
 </style>
 </head>
 <body style="width: 400px">
+<div id="nav">
+	<div id="next"><span>Forward</span></div>
+	<div id="middle"></div>
+	<div id="back"><span>Back</span></div>
+</div>
 <div id="item">
 	<div id="image"></div>
 	<div id="links"></div>
 </div>
-<div id="back">nazaj</div>
-<div id="next">naprej</div>
 <script language="JavaScript" type="text/javascript" src="jquery.js"></script>
 <script language="JavaScript" type="text/javascript" src="popup.js"></script>
 </body>

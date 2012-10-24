@@ -1,8 +1,8 @@
-console.log("ska1");
+console.log("run_1");
 chrome.extension.sendMessage({tab: "new"}, function(response) {});
 $(window).load(function () {
   chrome.extension.sendMessage({tab: "new"}, function(response) {});
-  console.log("ska2");
+  console.log("run_2");
 });
 
 (function(history){
@@ -14,13 +14,9 @@ $(window).load(function () {
         }
     }
 })(window.history);
-window.history.pushState = function(state){
-    console.log("ska");
-};
-
 
 window.onpopstate = history.onpushstate = function(e) {
     chrome.extension.sendMessage({tab: "new"}, function(response) {});
-    console.log("ska3");
+    console.log("run_3");
 };
 
